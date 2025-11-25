@@ -104,15 +104,15 @@ function clearFilterBtnClasses() {
     }
 }
 
-function handleFilterBtnClasses() {
+function handleFilterBtnClasses(filterBtn) {
     clearFilterBtnClasses();
-    this.classList.remove("btn-outline-primary");
-    this.classList.add("btn-primary");
-    this.classList.add("active");
+    filterBtn.classList.remove("btn-outline-primary");
+    filterBtn.classList.add("btn-primary");
+    filterBtn.classList.add("active");
 }
 
 function filterTasks() {
-    handleFilterBtnClasses();
+    handleFilterBtnClasses(this);
 
     // TODO: Atualizar lista de tarefas
     switch (this.getAttribute("data-filter")) {
