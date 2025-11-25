@@ -53,12 +53,17 @@ const dateOptions = {
 };
 const hourOptions = { hour: "2-digit", minute: "2-digit" };
 
-// ----------------------------------- Task -----------------------------------
+// -------------------------------- Statistics --------------------------------
 const taskList = document.getElementById("taskList");
 let activeCount = document.getElementById("activeCount");
 let completedCount = document.getElementById("completedCount");
 let activeTasks = 0;
 let completedTasks = 0;
+// ----------------------------------------------------------------------------
+
+// ---------------------------------- Filter ----------------------------------
+const filterButtons = document.getElementById("filterButtons");
+
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------------ Functions
@@ -90,6 +95,38 @@ function updateStatistics() {
     completedCount.textContent = completedTasks;
 }
 updateStatistics();
+
+function clearFilterBtnClasses() {
+    for (const filter of filterButtons.children) {
+        filter.classList.add("btn-outline-primary");
+        filter.classList.remove("btn-primary");
+        filter.classList.remove("active");
+    }
+}
+
+function handleFilterBtnClasses() {
+    clearFilterBtnClasses();
+    this.classList.remove("btn-outline-primary");
+    this.classList.add("btn-primary");
+    this.classList.add("active");
+}
+
+function filterTasks() {
+    handleFilterBtnClasses();
+
+    // TODO: Atualizar lista de tarefas
+    switch (this.getAttribute("data-filter")) {
+        case "all":
+            console.log("Remove filter");
+            break;
+        case "active":
+            console.log("Show only active tasks");
+            break;
+        case "completed":
+            console.log("Show only completed tasks");
+            break;
+    }
+}
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------ Event Listeners
@@ -101,6 +138,10 @@ themeToggle.addEventListener("click", () => {
         document.body.setAttribute("data-bs-theme", "dark");
     }
 });
+
+for (const filter of filterButtons.children) {
+    filter.addEventListener("click", filterTasks);
+}
 // ----------------------------------------------------------------------------
 
 // 3. Add Task
