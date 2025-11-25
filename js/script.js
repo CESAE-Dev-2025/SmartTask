@@ -1,18 +1,107 @@
-// Task Manager JavaScript
-// Add your interactivity code here
+/******************************************************************************
+              Projeto Final 1: “Gestor de Tarefas Inteligente”:
+                                Leandro Gabriel
+******************************************************************************/
+/*
+Data de entrega: até 3a (2/11) à noite
+Data da apresentação: dia 5/11 de manhã
 
-// Example starter code structure:
 
-// 1. Theme Toggle
-// document.getElementById('themeToggle').addEventListener('click', function() {
-//   // Toggle data-bs-theme attribute between 'light' and 'dark'
-// });
+Sistema completo de gestão de tarefas com as seguintes funcionalidades:
+  - Adicionar tarefas via formulário    
+  - Marcar tarefas como concluídas      
+  - Editar e remover tarefas      
+  - Contar tarefas ativas/concluídas    
+  - Filtros (Todas / Ativas / Concluídas)     
+  - Personalização de tema (claro/escuro)     
+  - Mostra hora/data atual
+  - Conectar com uma APi à vossa escolha e mostrar dados (por exemplo tempo)
+    https://motivational-spark-api.vercel.app/api/
+    Ex: GET https://motivational-spark-api.vercel.app/api/quotes/random
+    Response:
+    {
+        "author": "Zat Rana",
+        "quote": "There is no such thing as fairness, and dwelling on it creates despair."
+    }
 
-// 2. Current Date/Time
-// function updateDateTime() {
-//   // Update the #currentDateTime element
-// }
-// setInterval(updateDateTime, 1000);
+Entrega através de zip com o vosso nome ou link para o GitHub.
+
+Avaliação:
+  - Realização das funcionalidades propostas e defesa: 17v
+  - Criatividade e Extras (funcionalidades): 2v
+  - Boas práticas de programação e organização de código (1v)
+
+Nota: a nota dos items anteriores só é validada com a explicação da mesma (apresentação do trabalho).
+
+O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e tarefas intermédias)
+*/
+
+// ------------------------------------------------------------------ Variables
+// TODO: Adicionar opção de idioma ("pt-PT")
+let selectedLocale = "en-US";
+
+// ---------------------------------- Theme -----------------------------------
+const themeToggle = document.getElementById("themeToggle");
+
+// ----------------------------------- Date -----------------------------------
+let currentDateTime = document.getElementById("currentDateTime");
+const dateOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+};
+const hourOptions = { hour: "2-digit", minute: "2-digit" };
+
+// ----------------------------------- Task -----------------------------------
+const taskList = document.getElementById("taskList");
+let activeCount = document.getElementById("activeCount");
+let completedCount = document.getElementById("completedCount");
+let activeTasks = 0;
+let completedTasks = 0;
+// ----------------------------------------------------------------------------
+
+// ------------------------------------------------------------------ Functions
+function updateDateTime() {
+    let currentDate = new Date();
+
+    // Apenas para legibilidade do código
+    let date = currentDate.toLocaleDateString(selectedLocale, dateOptions);
+    let hour = currentDate.toLocaleTimeString(selectedLocale, hourOptions);
+
+    currentDateTime.textContent = `${date} • ${hour}`;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 3600);
+
+function updateStatistics() {
+    let taskCount = taskList.children.length;
+    if (taskCount > 0) {
+        for (task of taskList.children) {
+            if (task.getAttribute("data-completed") == "true") {
+                completedTasks++;
+            } else {
+                activeTasks++;
+            }
+        }
+    }
+    activeCount.textContent = activeTasks;
+    completedCount.textContent = completedTasks;
+}
+updateStatistics();
+// ----------------------------------------------------------------------------
+
+// ------------------------------------------------------------ Event Listeners
+themeToggle.addEventListener("click", () => {
+    let currentTheme = document.body.getAttribute("data-bs-theme");
+    if (currentTheme == "dark") {
+        document.body.setAttribute("data-bs-theme", "light");
+    } else {
+        document.body.setAttribute("data-bs-theme", "dark");
+    }
+});
+// ----------------------------------------------------------------------------
 
 // 3. Add Task
 // document.getElementById('addTaskForm').addEventListener('submit', function(e) {
