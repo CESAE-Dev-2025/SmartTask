@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- JavaScript -->
+    <script src="./js/script.js" defer></script>
+</head>
+
+<body>
+    <div class="min-vh-100 bg-light">
+        <div class="container py-4" style="max-width: 800px;">
+
+            <!-- Header -->
+            <header class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 class="mb-0">Task Manager</h1>
+
+                    <!-- Theme Toggle Button -->
+                    <button class="btn btn-outline-secondary" aria-label="Toggle theme" id="themeToggle">
+                        <i class="theme-icon-light bi bi-sun"></i>
+                        <i class="theme-icon-dark bi bi-moon"></i>
+                    </button>
+                </div>
+
+                <!-- Current Date/Time -->
+                <p class="text-muted mb-0" id="currentDateTime">
+                    Tuesday, November 25, 2025 • 10:30 AM
+                </p>
+            </header>
+
+            <!-- Task Statistics -->
+            <div class="row g-3 mb-4">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-muted small mb-1">Active Tasks</p>
+                            <h3 class="mb-0" id="activeCount">2</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-muted small mb-1">Completed</p>
+                            <h3 class="mb-0" id="completedCount">1</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Task Form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="addTaskForm" class="d-flex gap-2">
+                        <input type="text" id="taskInput" placeholder="Add a new task..." class="form-control" />
+                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
+                            style="white-space: nowrap;">
+                            <i class="bi bi-plus-lg"></i>
+                            Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="btn-group mb-3 w-100 d-flex" role="group" id="filterButtons">
+                <button type="button" class="btn btn-primary active" data-filter="all">
+                    All
+                </button>
+                <button type="button" class="btn btn-outline-primary" data-filter="active">
+                    Active
+                </button>
+                <button type="button" class="btn btn-outline-primary" data-filter="completed">
+                    Completed
+                </button>
+            </div>
+
+            <!-- Task List -->
+            <div class="task-list" id="taskList">
+
+                <!-- Task Item 1 -->
+                <div class="card mb-2 task-item" data-task-id="1" data-completed="false">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <input type="checkbox" class="form-check-input mt-0 task-checkbox"
+                            style="width: 20px; height: 20px; cursor: pointer;" />
+                        <span class="flex-grow-1 task-text">
+                            Complete project documentation
+                        </span>
+                        <div class="task-actions">
+                            <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Item 2 (Completed) -->
+                <div class="card mb-2 task-item" data-task-id="2" data-completed="true">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <input type="checkbox" class="form-check-input mt-0 task-checkbox"
+                            style="width: 20px; height: 20px; cursor: pointer;" checked />
+                        <span class="flex-grow-1 task-text text-decoration-line-through text-muted">
+                            Review pull requests
+                        </span>
+                        <div class="task-actions">
+                            <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Item 3 -->
+                <div class="card mb-2 task-item" data-task-id="3" data-completed="false">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <input type="checkbox" class="form-check-input mt-0 task-checkbox"
+                            style="width: 20px; height: 20px; cursor: pointer;" />
+                        <span class="flex-grow-1 task-text">
+                            Update task management system
+                        </span>
+                        <div class="task-actions">
+                            <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty State (hidden when tasks exist) -->
+            <div class="card d-none" id="emptyState">
+                <div class="card-body text-center py-5">
+                    <p class="text-muted mb-0">
+                        No tasks yet. Add one to get started!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+/****************************************************************************************/
+/*                            Estilos gerados no Figma Make                             */
+/*                                                                                      */
+/* https://www.figma.com/make/MUhnSr4n3jPjvvEefFdzvW/Task-Management-System?node-id=0-4 */
+/*                                                                                      */
+/****************************************************************************************/
+
+/***                                                             Task item hover effect */
+.task-item {
+    transition: box-shadow 0.2s ease;
+}
+
+.task-item:hover {
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+/****************************************************************************************/
+
+/***                                        Hide task actions by default, show on hover */
+.task-actions {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.task-item:hover .task-actions {
+    opacity: 1;
+}
+/****************************************************************************************/
+
+/***                                                                  Dark theme styles */
+[data-bs-theme="dark"] {
+    background-color: #212529;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .bg-light {
+    background-color: #212529 !important;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #343a40;
+    border-color: #495057;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .text-muted {
+    color: #adb5bd !important;
+}
+
+[data-bs-theme="dark"] .form-control {
+    background-color: #212529;
+    border-color: #495057;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .form-control::placeholder {
+    color: #6c757d;
+}
+
+[data-bs-theme="dark"] .form-control:focus {
+    background-color: #212529;
+    border-color: #0d6efd;
+    color: #dee2e6;
+}
+
+[data-bs-theme="dark"] .btn-outline-secondary {
+    color: #adb5bd;
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #495057;
+    border-color: #495057;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .task-item:hover {
+    box-shadow: 0 0.125rem 0.5rem rgba(255, 255, 255, 0.1);
+}
+/****************************************************************************************/
+
+/**                                                                   Theme icon toggle */
+.theme-icon-light {
+    display: inline-block;
+}
+
+.theme-icon-dark {
+    display: none;
+}
+
+[data-bs-theme="dark"] .theme-icon-light {
+    display: none;
+}
+
+[data-bs-theme="dark"] .theme-icon-dark {
+    display: inline-block !important;
+}
+/****************************************************************************************/
+
+/***                                                            Button group full width */
+.btn-group.w-100 > .btn {
+    flex: 1;
+}
+/****************************************************************************************/
+
+/***                                                                     Icon alignment */
+.bi {
+    vertical-align: middle;
+}
+/****************************************************************************************/
