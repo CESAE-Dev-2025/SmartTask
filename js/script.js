@@ -39,6 +39,8 @@ O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e ta
 // ------------------------------------------------------------------ Variables
 // TODO: Adicionar opção de idioma ("pt-PT")
 let selectedLocale = "en-US";
+let tasks = [];
+let currentId = 4;
 
 // ---------------------------------- Theme -----------------------------------
 const themeToggle = document.getElementById("themeToggle");
@@ -59,6 +61,24 @@ let activeCount = document.getElementById("activeCount");
 let completedCount = document.getElementById("completedCount");
 let activeTasks = 0;
 let completedTasks = 0;
+
+const addTaskForm = document.getElementById("addTaskForm");
+let taskItem = `
+    <div class="card mb-2 task-item" data-task-id="" data-completed="false">
+        <div class="card-body d-flex align-items-center gap-3">
+            <input type="checkbox" class="form-check-input mt-0 task-checkbox"
+                style="width: 20px; height: 20px; cursor: pointer;" />
+            <span class="flex-grow-1 task-text"></span>
+            <div class="task-actions">
+                <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>`;
 // ----------------------------------------------------------------------------
 
 // ---------------------------------- Filter ----------------------------------
@@ -67,6 +87,18 @@ const filterButtons = document.getElementById("filterButtons");
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------------ Functions
+function newTask(e) {
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    let newItem = new DOMParser().parseFromString(taskItem, "text/html").body
+        .firstElementChild;
+
+    newItem.setAttribute("data-task-id", currentId);
+    newItem.querySelector(".task-text").textContent = formData.get("task-item");
+    taskList.appendChild(newItem);
+}
+
 function updateDateTime() {
     let currentDate = new Date();
 
@@ -142,6 +174,8 @@ themeToggle.addEventListener("click", () => {
 for (const filter of filterButtons.children) {
     filter.addEventListener("click", filterTasks);
 }
+
+addTaskForm.addEventListener("submit", newTask);
 // ----------------------------------------------------------------------------
 
 // 3. Add Task
