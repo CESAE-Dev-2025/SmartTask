@@ -176,8 +176,7 @@ Link do Projeto: [https://github.com/CESAE-Dev-2025/SmartTask](https://github.co
 <!-- ACKNOWLEDGMENTS -->
 ## Agradecimentos
 
-<!-- TODO: Adiciona link para github da formadora -->
-Agradeçemos ao [CESAE](https://cesaedigital.pt/fldrSite/default.aspx) pela oportunidade de crescimento e à [Sara Monteiro](https://github.com/) pelo desafio.
+Agradeçemos ao [CESAE](https://cesaedigital.pt/fldrSite/default.aspx) pela oportunidade de crescimento e à [Sara Monteiro](https://github.com/SaraBarrett) pelo desafio.
 
 Agradeço também aos mantenedores dos projetos listados abaixo:
 <!-- TODO: Adicionar links das APIs utilizadas para 'quotes' -->
