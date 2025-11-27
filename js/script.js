@@ -8,21 +8,14 @@ Data da apresentação: dia 5/11 de manhã
 
 
 Sistema completo de gestão de tarefas com as seguintes funcionalidades:
-  - Adicionar tarefas via formulário    
-  - Marcar tarefas como concluídas      
-  - Editar e remover tarefas      
-  - Contar tarefas ativas/concluídas    
-  - Filtros (Todas / Ativas / Concluídas)     
-  - Personalização de tema (claro/escuro)     
+  - Adicionar tarefas via formulário
+  - Marcar tarefas como concluídas
+  - Editar e remover tarefas
+  - Contar tarefas ativas/concluídas
+  - Filtros (Todas / Ativas / Concluídas)
+  - Personalização de tema (claro/escuro)
   - Mostra hora/data atual
   - Conectar com uma APi à vossa escolha e mostrar dados (por exemplo tempo)
-    https://motivational-spark-api.vercel.app/api/
-    Ex: GET https://motivational-spark-api.vercel.app/api/quotes/random
-    Response:
-    {
-        "author": "Zat Rana",
-        "quote": "There is no such thing as fairness, and dwelling on it creates despair."
-    }
 
 Entrega através de zip com o vosso nome ou link para o GitHub.
 
@@ -31,9 +24,11 @@ Avaliação:
   - Criatividade e Extras (funcionalidades): 2v
   - Boas práticas de programação e organização de código (1v)
 
-Nota: a nota dos items anteriores só é validada com a explicação da mesma (apresentação do trabalho).
+Nota: a nota dos items anteriores só é validada com a explicação da mesma
+      (apresentação do trabalho).
 
-O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e tarefas intermédias)
+O projecto e sua defesa vale 50% da nota 
+(outros 50% participação em aula e tarefas intermédias)
 */
 
 // ----------------------------------------------------------------------------
@@ -42,7 +37,7 @@ O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e ta
 
 // -------------------------------- Language ----------------------------------
 let selectedLocale = document.documentElement.getAttribute("data-lang");
-const appTexts = [
+let appTexts = [
     { selector: "h1", en: "Task Manager", pt: "Gestor de Tarefas" },
     {
         selector: "#statistics > :nth-child(1) p",
@@ -83,8 +78,8 @@ const appTexts = [
 ];
 
 // ---------------------------------- Theme -----------------------------------
-const themeToggle = document.getElementById("themeToggle");
-const languageToggle = document.getElementById("languageToggle");
+let themeToggle = document.getElementById("themeToggle");
+let languageToggle = document.getElementById("languageToggle");
 
 // ----------------------------------- Date -----------------------------------
 let currentDateTime = document.getElementById("currentDateTime");
@@ -103,36 +98,14 @@ let completedCount = document.getElementById("completedCount");
 // ---------------------------------- Quote -----------------------------------
 let quote = document.querySelector("#quote p");
 let quoteAuthor = document.querySelector("#quote .quote-author");
-let quoteUpdateTimer;
 
 // ---------------------------------- Tasks -----------------------------------
+let addTaskForm = document.getElementById("addTaskForm");
 let taskList = document.getElementById("taskList");
 let emptyState = document.getElementById("emptyState");
-
-let tasks = [
-    { id: 1, text: "Complete project documentation", completed: false },
-    { id: 2, text: "Review pull requests", completed: true },
-    { id: 3, text: "Update task management system", completed: false },
-];
-
-let currentId = 4;
-
-const addTaskForm = document.getElementById("addTaskForm");
-let taskItem = `
-    <div class="card mb-2 task-item" data-task-id="" data-completed="false">
-        <div class="card-body d-flex align-items-center gap-3">
-            <input type="checkbox" class="form-check-input mt-0 task-checkbox"/>
-            <span class="flex-grow-1 task-text"></span>
-            <div class="task-actions">
-                <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
-                    <i class="bi bi-pencil-square"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
-        </div>
-    </div>`;
+let currentId;
+let tasks;
+let taskItem;
 
 // ---------------------------------- Filter ----------------------------------
 const filterButtons = document.getElementById("filterButtons");
@@ -225,7 +198,19 @@ function handleEmptyState() {
     }
 }
 
+function updateTaskStatus(taskId, status) {
+    let currentTaskIndex = tasks.indexOf(
+        tasks.find((item) => item.id == taskId)
+    );
+    tasks[currentTaskIndex].completed = status;
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
 function toggleCheckbox() {
+    let currentTaskId =
+        this.parentElement.parentElement.getAttribute("data-task-id");
+
     this.parentElement.parentElement.setAttribute(
         "data-completed",
         this.checked
@@ -242,6 +227,8 @@ function toggleCheckbox() {
             "text-muted"
         );
     }
+
+    updateTaskStatus(currentTaskId, this.checked);
     updateStatistics();
 }
 
@@ -282,7 +269,12 @@ function newTask(e) {
         completed: false,
     };
     tasks.push(newTask);
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("currentId", currentId++);
+
     renderTask(newTask);
+
     e.target.reset();
     handleEmptyState();
 }
@@ -290,6 +282,8 @@ function newTask(e) {
 function removeTaskById(taskId) {
     let itemIndex = tasks.indexOf(tasks.find((item) => item.id == taskId));
     tasks.splice(itemIndex, 1);
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 function deleteTask() {
@@ -301,7 +295,7 @@ function deleteTask() {
 }
 
 function editTask() {
-    // TODO: Impementar edição
+    // TODO: Implementar edição
     console.log("Editar tarefa!");
 }
 
@@ -351,6 +345,64 @@ function filterTasks() {
             break;
     }
 }
+
+function addTestData() {
+    let testTasks = [
+        { id: 1, text: "Complete project documentation", completed: false },
+        { id: 2, text: "Review pull requests", completed: true },
+        { id: 3, text: "Update task management system", completed: false },
+    ];
+    currentId = 4;
+    testTasks.forEach((item) => tasks.push(item));
+    tasks.forEach((task) => renderTask(task));
+}
+
+// --------------------------------- Startup ----------------------------------
+function getLastId() {
+    if (tasks.length > 1) {
+        return tasks.reduce(function (prev, current) {
+            return prev && prev.id > current.id ? prev.id : current.id;
+        });
+    }
+
+    return tasks[0].id;
+}
+
+function startupActions() {
+    tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    currentId = 1;
+    taskItem = `
+    <div class="card mb-2 task-item" data-task-id="" data-completed="false">
+        <div class="card-body d-flex align-items-center gap-3">
+            <input type="checkbox" class="form-check-input mt-0 task-checkbox"/>
+            <span class="flex-grow-1 task-text"></span>
+            <div class="task-actions">
+                <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
+                    <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>`;
+
+    if (tasks.length > 0) {
+        tasks.forEach((task) => renderTask(task));
+        currentId += getLastId();
+    }
+
+    handleEmptyState();
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
+    updateQuote();
+    setInterval(updateQuote, 300000);
+
+    // addTestData();
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("currentId", currentId);
+}
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
@@ -370,17 +422,9 @@ addTaskForm.addEventListener("submit", newTask);
 for (const filter of filterButtons.children) {
     filter.addEventListener("click", filterTasks);
 }
-// ----------------------------------------------------------------------------
 
+// --------------------------------- Startup ----------------------------------
+window.addEventListener("load", (event) => {
+    startupActions();
+});
 // ----------------------------------------------------------------------------
-// ----------------------------------------------------- Startup Function Calls
-// ----------------------------------------------------------------------------
-handleEmptyState();
-tasks.forEach((task) => renderTask(task));
-updateDateTime();
-setInterval(updateDateTime, 60000);
-updateQuote();
-setInterval(updateQuote, 300000);
-// ----------------------------------------------------------------------------
-
-// TODO: Adicionar API de imagens (unsplash?)
