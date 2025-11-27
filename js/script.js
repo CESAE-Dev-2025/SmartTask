@@ -39,35 +39,85 @@ O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e ta
 // ------------------------------------------------------------------ Variables
 // TODO: Adicionar opção de idioma ("pt-PT")
 let selectedLocale = "en-US";
-let tasks = [];
-let currentId = 4;
+const appTexts = [
+    { selector: "h1", en: "Task Manager", pt: "Gestor de Tarefas" },
+    {
+        selector: "#statistics > :nth-child(1) p",
+        en: "Active Tasks",
+        pt: "Tarefas Activas",
+    },
+    {
+        selector: "#statistics > :nth-child(2) p",
+        en: "Completed Tasks",
+        pt: "Tarefas Completadas",
+    },
+    {
+        selector: "#addTaskForm input",
+        en: "Add a new task...",
+        pt: "Adicione nova tarefa...",
+    },
+    { selector: "#addTaskForm button span", en: "Add", pt: "Adicionar" },
+    {
+        selector: "#filterButtons button:nth-of-type(1)",
+        en: "All",
+        pt: "Todas",
+    },
+    {
+        selector: "#filterButtons button:nth-of-type(2)",
+        en: "Active",
+        pt: "Activas",
+    },
+    {
+        selector: "#filterButtons button:nth-of-type(3)",
+        en: "Completed",
+        pt: "Completadas",
+    },
+    {
+        selector: "#emptyState p",
+        en: "No tasks yet. Add one to get started!",
+        pt: "Sem tarefas. Adicione uma para iniciar!",
+    },
+];
 
+for (item of appTexts) {
+    let currentElement = document.querySelector(item.selector);
+    let localeText = selectedLocale == "en-US" ? item.en : item.pt;
+
+    if (currentElement.tagName.toLowerCase() === "input") {
+        currentElement.setAttribute("placeholder", localeText);
+    } else {
+        currentElement.textContent = localeText;
+    }
+}
 // ---------------------------------- Theme -----------------------------------
 const themeToggle = document.getElementById("themeToggle");
 
 // ----------------------------------- Date -----------------------------------
 let currentDateTime = document.getElementById("currentDateTime");
+const hourOptions = { hour: "2-digit", minute: "2-digit" };
 const dateOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
 };
-const hourOptions = { hour: "2-digit", minute: "2-digit" };
 
-// -------------------------------- Statistics --------------------------------
-const taskList = document.getElementById("taskList");
+// ---------------------------------- Tasks -----------------------------------
+let taskList = document.getElementById("taskList");
+let tasks = [
+    { id: 1, text: "Complete project documentation", completed: false },
+    { id: 2, text: "Review pull requests", completed: true },
+    { id: 3, text: "Update task management system", completed: false },
+];
+let currentId = 4;
 let activeCount = document.getElementById("activeCount");
 let completedCount = document.getElementById("completedCount");
-let activeTasks = 0;
-let completedTasks = 0;
 
 const addTaskForm = document.getElementById("addTaskForm");
 let taskItem = `
     <div class="card mb-2 task-item" data-task-id="" data-completed="false">
         <div class="card-body d-flex align-items-center gap-3">
-            <input type="checkbox" class="form-check-input mt-0 task-checkbox"
-                style="width: 20px; height: 20px; cursor: pointer;" />
+            <input type="checkbox" class="form-check-input mt-0 task-checkbox"/>
             <span class="flex-grow-1 task-text"></span>
             <div class="task-actions">
                 <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
@@ -87,16 +137,59 @@ const filterButtons = document.getElementById("filterButtons");
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------------ Functions
+function toggleCheckbox() {
+    this.parentElement.parentElement.setAttribute(
+        "data-completed",
+        this.checked
+    );
+
+    if (this.checked) {
+        this.nextElementSibling.classList.add(
+            "text-decoration-line-through",
+            "text-muted"
+        );
+    } else {
+        this.nextElementSibling.classList.remove(
+            "text-decoration-line-through",
+            "text-muted"
+        );
+    }
+    updateStatistics();
+}
+
+function renderTask(itemToRender) {
+    let newItem = new DOMParser().parseFromString(taskItem, "text/html").body
+        .firstElementChild;
+
+    newItem.setAttribute("data-task-id", itemToRender.id);
+    newItem.querySelector(".task-text").textContent = itemToRender.text;
+    newItem.setAttribute("data-completed", itemToRender.completed);
+
+    if (itemToRender.completed) {
+        newItem.querySelector(".task-checkbox").checked = true;
+        newItem
+            .querySelector(".task-text")
+            .classList.add("text-decoration-line-through", "text-muted");
+    }
+
+    newItem
+        .querySelector(".task-checkbox")
+        .addEventListener("change", toggleCheckbox);
+
+    taskList.appendChild(newItem);
+}
+
+tasks.forEach((task) => renderTask(task));
+
 function newTask(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    let newItem = new DOMParser().parseFromString(taskItem, "text/html").body
-        .firstElementChild;
-
-    newItem.setAttribute("data-task-id", currentId);
-    newItem.querySelector(".task-text").textContent = formData.get("task-item");
-    taskList.appendChild(newItem);
+    renderTask({
+        id: currentId,
+        text: formData.get("task-item"),
+        completed: false,
+    });
 }
 
 function updateDateTime() {
@@ -113,7 +206,9 @@ updateDateTime();
 setInterval(updateDateTime, 3600);
 
 function updateStatistics() {
-    let taskCount = taskList.children.length;
+    let taskCount = tasks.length;
+    let activeTasks = 0,
+        completedTasks = 0;
     if (taskCount > 0) {
         for (task of taskList.children) {
             if (task.getAttribute("data-completed") == "true") {

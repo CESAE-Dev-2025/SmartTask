@@ -113,3 +113,12 @@
     vertical-align: middle;
 }
 /****************************************************************************************/
+
+.container {
+    max-width: 720px;
+}
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}

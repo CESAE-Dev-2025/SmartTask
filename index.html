@@ -12,6 +12,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
+    <!--  Flag icons -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" /> -->
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./css/styles.css">
 
@@ -21,18 +24,27 @@
 
 <body>
     <div class="min-vh-100 bg-light">
-        <div class="container py-4" style="max-width: 800px;">
+        <div class="container py-4">
 
             <!-- Header -->
             <header class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h1 class="mb-0">Task Manager</h1>
 
-                    <!-- Theme Toggle Button -->
-                    <button class="btn btn-outline-secondary" aria-label="Toggle theme" id="themeToggle">
-                        <i class="theme-icon-light bi bi-sun"></i>
-                        <i class="theme-icon-dark bi bi-moon"></i>
-                    </button>
+                    <div>
+                        <!-- Theme Toggle Button -->
+                        <button class="btn btn-outline-secondary" aria-label="Toggle theme" id="themeToggle">
+                            <i class="theme-icon-light bi bi-sun"></i>
+                            <i class="theme-icon-dark bi bi-moon"></i>
+                        </button>
+
+                        <!-- Language Toggle Button -->
+                        <!-- TODO: Adiciona dropdown para selecionar idioma -->
+                        <!-- <button class="btn btn-outline-secondary" aria-label="Toggle language" id="languageToggle">
+                            <span class="fi fi-us"></span>
+                            <span class="fi fi-pt"></span>
+                        </button> -->
+                    </div>
                 </div>
 
                 <!-- Current Date/Time -->
@@ -42,7 +54,7 @@
             </header>
 
             <!-- Task Statistics -->
-            <div class="row g-3 mb-4">
+            <div class="row g-3 mb-4" id="statistics">
                 <div class="col-6">
                     <div class="card">
                         <div class="card-body">
@@ -65,13 +77,13 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <form id="addTaskForm" class="d-flex gap-2">
-                        <input name="task-item" type="text" id="taskInput" placeholder="Add a new task..." class="form-control" />
-                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
-                            style="white-space: nowrap;">
+                        <input name="task-item" type="text" id="taskInput" placeholder="Add a new task..."
+                            class="form-control" />
+                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 text-nowrap">
                             <i class="bi bi-plus-lg"></i>
                             <!-- TODO: Mudar ícone em modo de edição -->
                             <i class="bi bi-save d-none"></i>
-                            Add
+                            <span>Add</span>
                         </button>
                     </form>
                 </div>
@@ -94,10 +106,9 @@
             <div class="task-list" id="taskList">
 
                 <!-- Task Item 1 -->
-                <div class="card mb-2 task-item" data-task-id="1" data-completed="false">
+                <!-- <div class="card mb-2 task-item" data-task-id="1" data-completed="false">
                     <div class="card-body d-flex align-items-center gap-3">
-                        <input type="checkbox" class="form-check-input mt-0 task-checkbox"
-                            style="width: 20px; height: 20px; cursor: pointer;" />
+                        <input type="checkbox" class="form-check-input mt-0 task-checkbox" />
                         <span class="flex-grow-1 task-text">
                             Complete project documentation
                         </span>
@@ -110,13 +121,12 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Task Item 2 (Completed) -->
-                <div class="card mb-2 task-item" data-task-id="2" data-completed="true">
+                <!-- <div class="card mb-2 task-item" data-task-id="2" data-completed="true">
                     <div class="card-body d-flex align-items-center gap-3">
-                        <input type="checkbox" class="form-check-input mt-0 task-checkbox"
-                            style="width: 20px; height: 20px; cursor: pointer;" checked />
+                        <input type="checkbox" class="form-check-input mt-0 task-checkbox" checked />
                         <span class="flex-grow-1 task-text text-decoration-line-through text-muted">
                             Review pull requests
                         </span>
@@ -129,13 +139,12 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Task Item 3 -->
-                <div class="card mb-2 task-item" data-task-id="3" data-completed="false">
+                <!-- <div class="card mb-2 task-item" data-task-id="3" data-completed="false">
                     <div class="card-body d-flex align-items-center gap-3">
-                        <input type="checkbox" class="form-check-input mt-0 task-checkbox"
-                            style="width: 20px; height: 20px; cursor: pointer;" />
+                        <input type="checkbox" class="form-check-input mt-0 task-checkbox" />
                         <span class="flex-grow-1 task-text">
                             Update task management system
                         </span>
@@ -148,7 +157,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
 
