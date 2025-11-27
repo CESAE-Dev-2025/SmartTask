@@ -100,6 +100,10 @@ const dateOptions = {
 let activeCount = document.getElementById("activeCount");
 let completedCount = document.getElementById("completedCount");
 
+// ---------------------------------- Quote -----------------------------------
+let quote = document.querySelector("#quote p");
+let quoteAuthor = document.querySelector("#quote .quote-author");
+
 // ---------------------------------- Tasks -----------------------------------
 let taskList = document.getElementById("taskList");
 let emptyState = document.getElementById("emptyState");
@@ -355,6 +359,17 @@ addTaskForm.addEventListener("submit", newTask);
 for (const filter of filterButtons.children) {
     filter.addEventListener("click", filterTasks);
 }
+
+// TODO: Adicionar API de citações
+document.getElementById("cat-fact").addEventListener("click", (e) => {
+    fetch("https://catfact.ninja/fact")
+        .then((response) => response.json())
+        .then((data) => {
+            let p = document.createElement("p");
+            p.textContent = data.fact;
+            document.getElementById("fact").appendChild(p);
+        });
+});
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
@@ -367,5 +382,4 @@ updateDateTime();
 setInterval(updateDateTime, 3600);
 // ----------------------------------------------------------------------------
 
-// TODO: Adicionar API de citações
 // TODO: Adicionar API de imagens (unsplash?)
