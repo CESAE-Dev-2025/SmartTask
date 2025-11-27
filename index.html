@@ -32,24 +32,22 @@
                     <h1 class="mb-0">Task Manager</h1>
 
                     <div>
+                        <!-- Language Toggle Button -->
+                        <button class="btn px-1" aria-label="Toggle language" id="languageToggle">
+                            <span class="lang-en fi fi-us"></span>
+                            <span class="lang-pt fi fi-pt"></span>
+                        </button>
+
                         <!-- Theme Toggle Button -->
                         <button class="btn btn-outline-secondary" aria-label="Toggle theme" id="themeToggle">
                             <i class="theme-icon-light bi bi-sun"></i>
                             <i class="theme-icon-dark bi bi-moon"></i>
                         </button>
-
-                        <!-- Language Toggle Button -->
-                        <button class="btn btn-outline-secondary" aria-label="Toggle language" id="languageToggle">
-                            <span class="lang-en fi fi-us"></span>
-                            <span class="lang-pt fi fi-pt"></span>
-                        </button>
                     </div>
                 </div>
 
                 <!-- Current Date/Time -->
-                <p class="text-muted mb-0" id="currentDateTime">
-                    Tuesday, November 25, 2025 • 10:30 AM
-                </p>
+                <p class="text-muted mb-0" id="currentDateTime"></p>
             </header>
 
             <!-- Task Statistics -->
@@ -58,7 +56,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="text-muted small mb-1">Active Tasks</p>
-                            <h3 class="mb-0" id="activeCount">2</h3>
+                            <h3 class="mb-0" id="activeCount">0</h3>
                         </div>
                     </div>
                 </div>
@@ -66,7 +64,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="text-muted small mb-1">Completed</p>
-                            <h3 class="mb-0" id="completedCount">1</h3>
+                            <h3 class="mb-0" id="completedCount">0</h3>
                         </div>
                     </div>
                 </div>

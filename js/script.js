@@ -36,7 +36,11 @@ Nota: a nota dos items anteriores só é validada com a explicação da mesma (a
 O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e tarefas intermédias)
 */
 
+// ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ Variables
+// ----------------------------------------------------------------------------
+
+// -------------------------------- Language ----------------------------------
 let selectedLocale = document.documentElement.getAttribute("data-lang");
 const appTexts = [
     { selector: "h1", en: "Task Manager", pt: "Gestor de Tarefas" },
@@ -77,13 +81,7 @@ const appTexts = [
         pt: "Sem tarefas. Adicione uma para iniciar!",
     },
 ];
-let emptyState = document.getElementById("emptyState");
 
-let tasks = [
-    // { id: 1, text: "Complete project documentation", completed: false },
-    // { id: 2, text: "Review pull requests", completed: true },
-    // { id: 3, text: "Update task management system", completed: false },
-];
 // ---------------------------------- Theme -----------------------------------
 const themeToggle = document.getElementById("themeToggle");
 const languageToggle = document.getElementById("languageToggle");
@@ -98,12 +96,21 @@ const dateOptions = {
     day: "numeric",
 };
 
-// ---------------------------------- Tasks -----------------------------------
-let taskList = document.getElementById("taskList");
-
-let currentId = 4;
+// ------------------------------- Statistics ---------------------------------
 let activeCount = document.getElementById("activeCount");
 let completedCount = document.getElementById("completedCount");
+
+// ---------------------------------- Tasks -----------------------------------
+let taskList = document.getElementById("taskList");
+let emptyState = document.getElementById("emptyState");
+
+let tasks = [
+    { id: 1, text: "Complete project documentation", completed: false },
+    { id: 2, text: "Review pull requests", completed: true },
+    { id: 3, text: "Update task management system", completed: false },
+];
+
+let currentId = 4;
 
 const addTaskForm = document.getElementById("addTaskForm");
 let taskItem = `
@@ -121,22 +128,16 @@ let taskItem = `
             </div>
         </div>
     </div>`;
-// ----------------------------------------------------------------------------
 
 // ---------------------------------- Filter ----------------------------------
 const filterButtons = document.getElementById("filterButtons");
-
 // ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
 // ------------------------------------------------------------------ Functions
-function handleEmptyState() {
-    if (tasks.length > 0) {
-        emptyState.classList.add("d-none");
-    } else {
-        emptyState.classList.remove("d-none");
-    }
-}
+// ----------------------------------------------------------------------------
 
+// -------------------------------- Language ----------------------------------
 function updateLocale() {
     for (item of appTexts) {
         let currentElement = document.querySelector(item.selector);
@@ -147,6 +148,65 @@ function updateLocale() {
         } else {
             currentElement.textContent = localeText;
         }
+    }
+    updateDateTime();
+}
+
+function toggleLanguage() {
+    selectedLocale = selectedLocale == "en" ? "pt" : "en";
+    if (selectedLocale == "en") {
+        document.documentElement.setAttribute("data-lang", "en");
+    } else {
+        document.documentElement.setAttribute("data-lang", "pt");
+    }
+    updateLocale();
+}
+
+// ---------------------------------- Theme -----------------------------------
+function thoggletheme() {
+    let currentTheme = document.documentElement.getAttribute("data-bs-theme");
+    if (currentTheme == "dark") {
+        document.documentElement.setAttribute("data-bs-theme", "light");
+    } else {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+    }
+}
+
+// ----------------------------------- Date -----------------------------------
+function updateDateTime() {
+    let currentDate = new Date();
+
+    // Apenas para legibilidade do código
+    let date = currentDate.toLocaleDateString(selectedLocale, dateOptions);
+    let hour = currentDate.toLocaleTimeString(selectedLocale, hourOptions);
+
+    currentDateTime.textContent = `${date} • ${hour}`;
+}
+
+// ------------------------------- Statistics ---------------------------------
+function updateStatistics() {
+    let taskCount = tasks.length;
+    let activeTasks = 0,
+        completedTasks = 0;
+    if (taskCount > 0) {
+        for (task of taskList.children) {
+            if (task.getAttribute("data-completed") == "true") {
+                completedTasks++;
+            } else {
+                activeTasks++;
+            }
+        }
+    }
+    activeCount.textContent = activeTasks;
+    completedCount.textContent = completedTasks;
+}
+
+// ---------------------------------- Tasks -----------------------------------
+function handleEmptyState() {
+    if (tasks.length > 0) {
+        emptyState.classList.add("d-none");
+    } else {
+        emptyState.classList.remove("d-none");
     }
 }
 
@@ -193,6 +253,8 @@ function renderTask(itemToRender) {
     newItem.querySelector(".edit-btn").addEventListener("click", editTask);
 
     taskList.appendChild(newItem);
+
+    updateStatistics();
 }
 
 function newTask(e) {
@@ -210,31 +272,39 @@ function newTask(e) {
     handleEmptyState();
 }
 
-function updateDateTime() {
-    let currentDate = new Date();
-
-    // Apenas para legibilidade do código
-    let date = currentDate.toLocaleDateString(selectedLocale, dateOptions);
-    let hour = currentDate.toLocaleTimeString(selectedLocale, hourOptions);
-
-    currentDateTime.textContent = `${date} • ${hour}`;
+function removeTaskById(taskId) {
+    let itemIndex = tasks.indexOf(tasks.find((item) => item.id == taskId));
+    tasks.splice(itemIndex, 1);
 }
 
-function updateStatistics() {
-    let taskCount = tasks.length;
-    let activeTasks = 0,
-        completedTasks = 0;
-    if (taskCount > 0) {
-        for (task of taskList.children) {
-            if (task.getAttribute("data-completed") == "true") {
-                completedTasks++;
-            } else {
-                activeTasks++;
-            }
+function deleteTask() {
+    let taskCard = this.parentElement.parentElement.parentElement;
+    let taskId = taskCard.getAttribute("data-task-id");
+    removeTaskById(taskId);
+    taskCard.remove();
+    handleEmptyState();
+}
+
+function editTask() {
+    // TODO: Impementar edição
+    console.log("Editar tarefa!");
+}
+
+// ---------------------------------- Filter ----------------------------------
+function filterBy(attribute, value) {
+    for (const child of taskList.children) {
+        if (child.getAttribute(attribute) == value) {
+            child.classList.remove("d-none");
+        } else {
+            child.classList.add("d-none");
         }
     }
-    activeCount.textContent = activeTasks;
-    completedCount.textContent = completedTasks;
+}
+
+function clearFilter() {
+    for (const child of taskList.children) {
+        child.classList.remove("d-none");
+    }
 }
 
 function clearFilterBtnClasses() {
@@ -252,22 +322,6 @@ function handleFilterBtnClasses(filterBtn) {
     filterBtn.classList.add("active");
 }
 
-function clearFilter() {
-    for (const child of taskList.children) {
-        child.classList.remove("d-none");
-    }
-}
-
-function filterBy(attribute, value) {
-    for (const child of taskList.children) {
-        if (child.getAttribute(attribute) == value) {
-            child.classList.remove("d-none");
-        } else {
-            child.classList.add("d-none");
-        }
-    }
-}
-
 function filterTasks() {
     handleFilterBtnClasses(this);
     switch (this.getAttribute("data-filter")) {
@@ -282,61 +336,33 @@ function filterTasks() {
             break;
     }
 }
-
-// TODO: Corrigir remoção de tarefas
-function removeTaskById(taskId) {
-    console.log(taskId);
-    let itemIndex = tasks.find((item) => item.id == taskId);
-    console.log(itemIndex);
-    tasks.splice(itemIndex, 1);
-}
-
-function deleteTask() {
-    let taskCard = this.parentElement.parentElement.parentElement;
-    let taskId = taskCard.getAttribute("data-task-id");
-    removeTaskById(taskId);
-    taskCard.remove();
-    handleEmptyState();
-}
-
-function editTask() {
-    // TODO: Impementar edição
-    console.log("Editar tarefa!");
-}
 // ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
 // ------------------------------------------------------------ Event Listeners
-themeToggle.addEventListener("click", () => {
-    let currentTheme = document.documentElement.getAttribute("data-bs-theme");
-    if (currentTheme == "dark") {
-        document.documentElement.setAttribute("data-bs-theme", "light");
-    } else {
-        document.documentElement.setAttribute("data-bs-theme", "dark");
-    }
-});
+// ----------------------------------------------------------------------------
 
-languageToggle.addEventListener("click", () => {
-    selectedLocale = selectedLocale == "en" ? "pt" : "en";
-    // selectedLocale = document.documentElement.getAttribute("data-lang");
-    if (selectedLocale == "en") {
-        document.documentElement.setAttribute("data-lang", "en");
-    } else {
-        document.documentElement.setAttribute("data-lang", "pt");
-    }
-    updateLocale();
-});
+// -------------------------------- Language ----------------------------------
+languageToggle.addEventListener("click", toggleLanguage);
 
+// ---------------------------------- Theme -----------------------------------
+themeToggle.addEventListener("click", thoggletheme);
+
+// ---------------------------------- Tasks -----------------------------------
+addTaskForm.addEventListener("submit", newTask);
+
+// ---------------------------------- Filter ----------------------------------
 for (const filter of filterButtons.children) {
     filter.addEventListener("click", filterTasks);
 }
-
-addTaskForm.addEventListener("submit", newTask);
 // ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
 // ------------------------------------------------------------- Function calls
+// ----------------------------------------------------------------------------
 handleEmptyState();
 tasks.forEach((task) => renderTask(task));
-updateStatistics();
+// updateStatistics();
 updateDateTime();
 setInterval(updateDateTime, 3600);
 // ----------------------------------------------------------------------------
