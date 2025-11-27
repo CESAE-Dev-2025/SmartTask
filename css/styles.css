@@ -84,6 +84,24 @@
 }
 /****************************************************************************************/
 
+/***                                                                    Language styles */
+.lang-pt {
+    display: inline-block;
+}
+
+.lang-en {
+    display: none;
+}
+
+[data-lang="pt"] .lang-pt {
+    display: none;
+}
+
+[data-lang="pt"] .lang-en {
+    display: inline-block !important;
+}
+/****************************************************************************************/
+
 /**                                                                   Theme icon toggle */
 .theme-icon-light {
     display: inline-block;

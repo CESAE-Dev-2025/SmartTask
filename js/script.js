@@ -37,8 +37,7 @@ O projecto e sua defesa vale 50% da nota (outros 50% participação em aula e ta
 */
 
 // ------------------------------------------------------------------ Variables
-// TODO: Adicionar opção de idioma ("pt-PT")
-let selectedLocale = "en-US";
+let selectedLocale = document.documentElement.getAttribute("data-lang");
 const appTexts = [
     { selector: "h1", en: "Task Manager", pt: "Gestor de Tarefas" },
     {
@@ -78,14 +77,16 @@ const appTexts = [
         pt: "Sem tarefas. Adicione uma para iniciar!",
     },
 ];
+let emptyState = document.getElementById("emptyState");
 
 let tasks = [
-    { id: 1, text: "Complete project documentation", completed: false },
-    { id: 2, text: "Review pull requests", completed: true },
-    { id: 3, text: "Update task management system", completed: false },
+    // { id: 1, text: "Complete project documentation", completed: false },
+    // { id: 2, text: "Review pull requests", completed: true },
+    // { id: 3, text: "Update task management system", completed: false },
 ];
 // ---------------------------------- Theme -----------------------------------
 const themeToggle = document.getElementById("themeToggle");
+const languageToggle = document.getElementById("languageToggle");
 
 // ----------------------------------- Date -----------------------------------
 let currentDateTime = document.getElementById("currentDateTime");
@@ -128,10 +129,18 @@ const filterButtons = document.getElementById("filterButtons");
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------------ Functions
+function handleEmptyState() {
+    if (tasks.length > 0) {
+        emptyState.classList.add("d-none");
+    } else {
+        emptyState.classList.remove("d-none");
+    }
+}
+
 function updateLocale() {
     for (item of appTexts) {
         let currentElement = document.querySelector(item.selector);
-        let localeText = selectedLocale == "en-US" ? item.en : item.pt;
+        let localeText = selectedLocale == "en" ? item.en : item.pt;
 
         if (currentElement.tagName.toLowerCase() === "input") {
             currentElement.setAttribute("placeholder", localeText);
@@ -198,6 +207,7 @@ function newTask(e) {
     tasks.push(newTask);
     renderTask(newTask);
     e.target.reset();
+    handleEmptyState();
 }
 
 function updateDateTime() {
@@ -260,8 +270,6 @@ function filterBy(attribute, value) {
 
 function filterTasks() {
     handleFilterBtnClasses(this);
-
-    // TODO: Melhorar código
     switch (this.getAttribute("data-filter")) {
         case "all":
             clearFilter();
@@ -275,9 +283,12 @@ function filterTasks() {
     }
 }
 
+// TODO: Corrigir remoção de tarefas
 function removeTaskById(taskId) {
-    tasks.find((item) => item.id == taskId);
-    tasks.splice(1, 1);
+    console.log(taskId);
+    let itemIndex = tasks.find((item) => item.id == taskId);
+    console.log(itemIndex);
+    tasks.splice(itemIndex, 1);
 }
 
 function deleteTask() {
@@ -285,21 +296,34 @@ function deleteTask() {
     let taskId = taskCard.getAttribute("data-task-id");
     removeTaskById(taskId);
     taskCard.remove();
+    handleEmptyState();
 }
 
 function editTask() {
+    // TODO: Impementar edição
     console.log("Editar tarefa!");
 }
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------ Event Listeners
 themeToggle.addEventListener("click", () => {
-    let currentTheme = document.body.getAttribute("data-bs-theme");
+    let currentTheme = document.documentElement.getAttribute("data-bs-theme");
     if (currentTheme == "dark") {
-        document.body.setAttribute("data-bs-theme", "light");
+        document.documentElement.setAttribute("data-bs-theme", "light");
     } else {
-        document.body.setAttribute("data-bs-theme", "dark");
+        document.documentElement.setAttribute("data-bs-theme", "dark");
     }
+});
+
+languageToggle.addEventListener("click", () => {
+    selectedLocale = selectedLocale == "en" ? "pt" : "en";
+    // selectedLocale = document.documentElement.getAttribute("data-lang");
+    if (selectedLocale == "en") {
+        document.documentElement.setAttribute("data-lang", "en");
+    } else {
+        document.documentElement.setAttribute("data-lang", "pt");
+    }
+    updateLocale();
 });
 
 for (const filter of filterButtons.children) {
@@ -310,14 +334,12 @@ addTaskForm.addEventListener("submit", newTask);
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------- Function calls
-updateLocale();
+handleEmptyState();
 tasks.forEach((task) => renderTask(task));
 updateStatistics();
 updateDateTime();
 setInterval(updateDateTime, 3600);
-
 // ----------------------------------------------------------------------------
 
-// 5. Edit Task
-// Add event listeners to .edit-btn elements
-// Replace task text with input field for editing
+// TODO: Adicionar API de citações
+// TODO: Adicionar API de imagens (unsplash?)
