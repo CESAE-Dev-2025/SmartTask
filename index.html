@@ -40,10 +40,16 @@
 
                         <!-- Language Toggle Button -->
                         <!-- TODO: Adiciona dropdown para selecionar idioma -->
-                        <!-- <button class="btn btn-outline-secondary" aria-label="Toggle language" id="languageToggle">
-                            <span class="fi fi-us"></span>
-                            <span class="fi fi-pt"></span>
-                        </button> -->
+                        <!-- <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <span class="fi fi-us"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><span class="fi fi-us"></span></a></li>
+                                <li><a class="dropdown-item" href="#"><span class="fi fi-pt"></span></a></li>
+                            </ul>
+                        </div> -->
                     </div>
                 </div>
 
@@ -103,65 +109,10 @@
             </div>
 
             <!-- Task List -->
-            <div class="task-list" id="taskList">
-
-                <!-- Task Item 1 -->
-                <!-- <div class="card mb-2 task-item" data-task-id="1" data-completed="false">
-                    <div class="card-body d-flex align-items-center gap-3">
-                        <input type="checkbox" class="form-check-input mt-0 task-checkbox" />
-                        <span class="flex-grow-1 task-text">
-                            Complete project documentation
-                        </span>
-                        <div class="task-actions">
-                            <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Task Item 2 (Completed) -->
-                <!-- <div class="card mb-2 task-item" data-task-id="2" data-completed="true">
-                    <div class="card-body d-flex align-items-center gap-3">
-                        <input type="checkbox" class="form-check-input mt-0 task-checkbox" checked />
-                        <span class="flex-grow-1 task-text text-decoration-line-through text-muted">
-                            Review pull requests
-                        </span>
-                        <div class="task-actions">
-                            <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Task Item 3 -->
-                <!-- <div class="card mb-2 task-item" data-task-id="3" data-completed="false">
-                    <div class="card-body d-flex align-items-center gap-3">
-                        <input type="checkbox" class="form-check-input mt-0 task-checkbox" />
-                        <span class="flex-grow-1 task-text">
-                            Update task management system
-                        </span>
-                        <div class="task-actions">
-                            <button class="btn btn-sm btn-outline-secondary me-1 edit-btn" aria-label="Edit task">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger delete-btn" aria-label="Delete task">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-
-            </div>
+            <div class="task-list" id="taskList"></div>
 
             <!-- Empty State (hidden when tasks exist) -->
+            <!-- TODO: Adicionar div quando não hover tarefas -->
             <div class="card d-none" id="emptyState">
                 <div class="card-body text-center py-5">
                     <p class="text-muted mb-0">

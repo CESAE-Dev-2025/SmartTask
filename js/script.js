@@ -79,16 +79,11 @@ const appTexts = [
     },
 ];
 
-for (item of appTexts) {
-    let currentElement = document.querySelector(item.selector);
-    let localeText = selectedLocale == "en-US" ? item.en : item.pt;
-
-    if (currentElement.tagName.toLowerCase() === "input") {
-        currentElement.setAttribute("placeholder", localeText);
-    } else {
-        currentElement.textContent = localeText;
-    }
-}
+let tasks = [
+    { id: 1, text: "Complete project documentation", completed: false },
+    { id: 2, text: "Review pull requests", completed: true },
+    { id: 3, text: "Update task management system", completed: false },
+];
 // ---------------------------------- Theme -----------------------------------
 const themeToggle = document.getElementById("themeToggle");
 
@@ -104,11 +99,7 @@ const dateOptions = {
 
 // ---------------------------------- Tasks -----------------------------------
 let taskList = document.getElementById("taskList");
-let tasks = [
-    { id: 1, text: "Complete project documentation", completed: false },
-    { id: 2, text: "Review pull requests", completed: true },
-    { id: 3, text: "Update task management system", completed: false },
-];
+
 let currentId = 4;
 let activeCount = document.getElementById("activeCount");
 let completedCount = document.getElementById("completedCount");
@@ -137,6 +128,19 @@ const filterButtons = document.getElementById("filterButtons");
 // ----------------------------------------------------------------------------
 
 // ------------------------------------------------------------------ Functions
+function updateLocale() {
+    for (item of appTexts) {
+        let currentElement = document.querySelector(item.selector);
+        let localeText = selectedLocale == "en-US" ? item.en : item.pt;
+
+        if (currentElement.tagName.toLowerCase() === "input") {
+            currentElement.setAttribute("placeholder", localeText);
+        } else {
+            currentElement.textContent = localeText;
+        }
+    }
+}
+
 function toggleCheckbox() {
     this.parentElement.parentElement.setAttribute(
         "data-completed",
@@ -176,20 +180,24 @@ function renderTask(itemToRender) {
         .querySelector(".task-checkbox")
         .addEventListener("change", toggleCheckbox);
 
+    newItem.querySelector(".delete-btn").addEventListener("click", deleteTask);
+    newItem.querySelector(".edit-btn").addEventListener("click", editTask);
+
     taskList.appendChild(newItem);
 }
-
-tasks.forEach((task) => renderTask(task));
 
 function newTask(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    renderTask({
+    let newTask = {
         id: currentId,
         text: formData.get("task-item"),
         completed: false,
-    });
+    };
+    tasks.push(newTask);
+    renderTask(newTask);
+    e.target.reset();
 }
 
 function updateDateTime() {
@@ -201,9 +209,6 @@ function updateDateTime() {
 
     currentDateTime.textContent = `${date} • ${hour}`;
 }
-
-updateDateTime();
-setInterval(updateDateTime, 3600);
 
 function updateStatistics() {
     let taskCount = tasks.length;
@@ -221,7 +226,6 @@ function updateStatistics() {
     activeCount.textContent = activeTasks;
     completedCount.textContent = completedTasks;
 }
-updateStatistics();
 
 function clearFilterBtnClasses() {
     for (const filter of filterButtons.children) {
@@ -238,21 +242,53 @@ function handleFilterBtnClasses(filterBtn) {
     filterBtn.classList.add("active");
 }
 
+function clearFilter() {
+    for (const child of taskList.children) {
+        child.classList.remove("d-none");
+    }
+}
+
+function filterBy(attribute, value) {
+    for (const child of taskList.children) {
+        if (child.getAttribute(attribute) == value) {
+            child.classList.remove("d-none");
+        } else {
+            child.classList.add("d-none");
+        }
+    }
+}
+
 function filterTasks() {
     handleFilterBtnClasses(this);
 
-    // TODO: Atualizar lista de tarefas
+    // TODO: Melhorar código
     switch (this.getAttribute("data-filter")) {
         case "all":
-            console.log("Remove filter");
+            clearFilter();
             break;
         case "active":
-            console.log("Show only active tasks");
+            filterBy("data-completed", "false");
             break;
         case "completed":
-            console.log("Show only completed tasks");
+            filterBy("data-completed", "true");
             break;
     }
+}
+
+function removeTaskById(taskId) {
+    tasks.find((item) => item.id == taskId);
+    tasks.splice(1, 1);
+}
+
+function deleteTask() {
+    let taskCard = this.parentElement.parentElement.parentElement;
+    let taskId = taskCard.getAttribute("data-task-id");
+    removeTaskById(taskId);
+    taskCard.remove();
+}
+
+function editTask() {
+    console.log("Editar tarefa!");
 }
 // ----------------------------------------------------------------------------
 
@@ -273,29 +309,15 @@ for (const filter of filterButtons.children) {
 addTaskForm.addEventListener("submit", newTask);
 // ----------------------------------------------------------------------------
 
-// 3. Add Task
-// document.getElementById('addTaskForm').addEventListener('submit', function(e) {
-//   e.preventDefault();
-//   // Get input value, create new task element, append to #taskList
-// });
+// ------------------------------------------------------------- Function calls
+updateLocale();
+tasks.forEach((task) => renderTask(task));
+updateStatistics();
+updateDateTime();
+setInterval(updateDateTime, 3600);
 
-// 4. Task Checkbox (Complete/Uncomplete)
-// Add event listeners to .task-checkbox elements
-// Toggle completed state and update styling
+// ----------------------------------------------------------------------------
 
 // 5. Edit Task
 // Add event listeners to .edit-btn elements
 // Replace task text with input field for editing
-
-// 6. Delete Task
-// Add event listeners to .delete-btn elements
-// Remove task from DOM
-
-// 7. Filter Tasks
-// Add event listeners to filter buttons
-// Show/hide tasks based on data-completed attribute
-
-// 8. Update Counters
-// function updateCounters() {
-//   // Count tasks and update #activeCount and #completedCount
-// }
