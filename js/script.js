@@ -363,7 +363,7 @@ function handleTask(e) {
             .forEach((item) => item.classList.add("d-none"));
     }
 
-    // TODO: Mostrar aviso em toast
+    // TODO: Mostrar aviso de adição/edição em toast
     e.target.reset();
     handleEmptyState();
 }
@@ -382,6 +382,7 @@ function deleteTask() {
     taskCard.remove();
     updateStatistics();
     handleEmptyState();
+    // TODO: Mostrar aviso de remoção em toast
 }
 
 // ---------------------------------- Filter ----------------------------------
