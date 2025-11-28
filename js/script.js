@@ -365,6 +365,7 @@ function deleteTask() {
     let taskId = taskCard.getAttribute("data-task-id");
     removeTaskById(taskId);
     taskCard.remove();
+    updateStatistics();
     handleEmptyState();
 }
 
