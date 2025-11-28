@@ -18,6 +18,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./css/styles.css">
 
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" defer></script>
+
     <!-- JavaScript -->
     <script src="./js/script.js" defer></script>
 </head>
@@ -91,9 +94,12 @@
             <!-- Task Form -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <form id="taskForm" class="d-flex gap-2">
+                    <form id="taskForm" class="d-flex gap-2 needs-validation" novalidate>
                         <input name="task-item" type="text" id="taskInput" placeholder="Add a new task..."
                             class="form-control" data-task-id="0" />
+                        <div class="invalid-feedback">
+                            Please provide a valid city.
+                        </div>
                         <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 text-nowrap">
                             <i class="bi bi-plus-lg add-task"></i>
                             <span class="add-task">Add</span>
