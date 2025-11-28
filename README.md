@@ -6,13 +6,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/cesae-dev-2025/SmartTask/">
-    <!-- TODO: Criar logo -->
-    <img src="images/logo.svg" alt="Logo" height="70">
-  </a>
+    <a href="https://github.com/cesae-dev-2025/SmartTask/">
+        <img src="images/logo-bg-transparent.png" alt="Logo" height="70">
+    </a>
   
   
-
+<!-- TODO: Publicar Github Pages -->
   <p align="center">Torne-se o mestre da ação. Gerencie suas tarefas de forma simples, rápida e intuitiva!<br>Use SmartTask!
     <br />
     <a href="https://cesae-dev-2025.github.io/SmartTask/"><strong>Veja a Demo</strong></a>
