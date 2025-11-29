@@ -36,7 +36,10 @@ O projecto e sua defesa vale 50% da nota
 // ----------------------------------------------------------------------------
 
 // -------------------------------- Language ----------------------------------
-let selectedLocale = document.documentElement.getAttribute("lang");
+let selectedLocale =
+    localStorage.getItem("userLocale") ||
+    document.documentElement.getAttribute("lang");
+
 const lang = { EN: "en", PT: "pt" };
 let appTexts = [
     { selector: "h1", en: "Task Manager", pt: "Gestor de Tarefas" },
@@ -139,6 +142,7 @@ function updateLocale() {
         }
     }
     updateDateTime();
+    localStorage.setItem("userLocale", selectedLocale);
 }
 
 function toggleLanguage() {
@@ -163,12 +167,34 @@ function thoggleTheme() {
 }
 
 // ----------------------------------- Date -----------------------------------
+function capitalize(stringToCapitalize) {
+    return (stringToCapitalize = []
+        .concat(
+            stringToCapitalize.substring(0, 1).toUpperCase(),
+            stringToCapitalize.substring(1)
+        )
+        .join(""));
+}
+
+function formatDate(date) {
+    let formattedDate = date.split(" ");
+
+    formattedDate[0] = capitalize(formattedDate[0]);
+    formattedDate[3] = capitalize(formattedDate[3]);
+
+    return formattedDate.join(" ");
+}
+
 function updateDateTime() {
     let currentDate = new Date();
 
     // Apenas para legibilidade do código
     let date = currentDate.toLocaleDateString(selectedLocale, dateOptions);
     let hour = currentDate.toLocaleTimeString(selectedLocale, hourOptions);
+
+    if (selectedLocale == lang.PT) {
+        date = formatDate(date);
+    }
 
     currentDateTime.textContent = `${date} • ${hour}`;
 }
@@ -456,6 +482,7 @@ function getLastId() {
 }
 
 function startupActions() {
+    updateLocale();
     tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     currentId = 1;
     taskItem = `
@@ -480,7 +507,6 @@ function startupActions() {
     }
 
     handleEmptyState();
-    updateDateTime();
     setInterval(updateDateTime, 60000);
     updateQuote();
     setInterval(updateQuote, 300000);
