@@ -7,7 +7,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/cesae-dev-2025/SmartTask/">
-        <img src="images/logo-bg-transparent.png" alt="Logo" height="70">
+        <img src="images/logo.png" alt="Logo" height="70">
     </a>
   
   

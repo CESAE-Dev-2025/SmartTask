@@ -28,12 +28,13 @@
 <body>
     <div class="min-vh-100 bg-light">
         <div class="container py-4">
-
-            <!-- Header -->
-            <header class="mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h1 class="mb-0">Task Manager</h1>
-
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="./">
+                        <img src="./images/logo.png" alt="Logo" width="30" height="24"
+                            class="d-inline-block align-text-top">
+                        SmartTasks
+                    </a>
                     <div>
                         <!-- Language Toggle Button -->
                         <button class="btn px-1" aria-label="Toggle language" id="languageToggle">
@@ -48,6 +49,12 @@
                         </button>
                     </div>
                 </div>
+
+            </nav>
+
+            <!-- Header -->
+            <header class="my-4">
+                <h1 class="mb-3">Task Manager</h1>
 
                 <!-- Current Date/Time -->
                 <p class="text-muted mb-0" id="currentDateTime"></p>
