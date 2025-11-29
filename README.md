@@ -49,7 +49,7 @@
 <!-- ABOUT THE PROJECT -->
 ## Sobre o Projecto
 
-<img src="images/screenshot_cover.png" style="max-width: 520px" alt="SmartTask Screenshot">
+<img src="images/screenshot_cover.png" style="width: 520px" alt="SmartTask Screenshot">
 
 Esse projeto apresenta uma ferramenta de gestão inteligente (e simples) de tarefas. É composto por uma única página e faz uso dos recurso locais do seu browser.
 
@@ -73,32 +73,28 @@ Por fim, a aplicação possui 2 idiomas disponíveis:
 
 #### Temas em Inglês
 
-<p style="display: flex; justify-content: space-around; align-items: start;margin-bottom:20px">
+<p style="display: flex; justify-content: space-between !important; align-items: start;margin-bottom:20px !important;">
   <img src="images/screenshot_dark_en.png" style="width: 430px" alt="Dark Mode">
   <img src="images/screenshot_light_en.png" style="width: 430px" alt="Light Mode">
 </p>
 
 #### Temas em Português
 
-<p style="display: flex; justify-content: space-around; align-items: start;margin-bottom:20px">
-  <img src="images/screenshot_dark_pt.png" style="width: 430px" alt="Tema escuro">
-  <img src="images/screenshot_light_pt.png" style="width: 430px" alt="Tema Claro">
-</p>
-<p style="display: flex; justify-content: space-around; align-items: start;margin-bottom:20px">
+<p style="display: flex; justify-content: space-between !important; align-items: start;margin-bottom:20px !important;">
   <img src="images/screenshot_dark_pt.png" style="width: 430px" alt="Tema escuro">
   <img src="images/screenshot_light_pt.png" style="width: 430px" alt="Tema Claro">
 </p>
 
 #### Filtros
 
-<p style="display: flex; justify-content: space-around; align-items: start;margin-bottom:20px">
+<p style="display: flex; justify-content: space-between !important; align-items: start;margin-bottom:20px !important;">
   <img src="images/screenshot_light_en_active.png" style="width: 430px" alt="Filtro por tarefas activas">
   <img src="images/screenshot_light_en_completed.png" style="width: 430px" alt="Filtro por tarefas concluídas">
 </p>
 
 #### Validação e notificação
 
-<p style="display: flex; justify-content: space-around; align-items: start;margin-bottom:20px">
+<p style="display: flex; justify-content: space-between !important; align-items: start;margin-bottom:20px !important;">
   <img src="images/screenshot_light_en_validation.png" style="width: 430px" alt="Tema escuro">
   <img src="images/screenshot_light_en_toast.png" style="width: 430px" alt="Tema Claro">
 </p>
