@@ -559,7 +559,7 @@ function startupActions() {
     taskItem = taskList.querySelector(".task-item");
     taskItem.remove();
 
-    addTestData();
+    // addTestData();
 
     if (tasks.length > 0) {
         tasks.forEach((task) => renderTask(task));
