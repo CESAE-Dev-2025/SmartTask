@@ -277,6 +277,20 @@ function updateTaskStatus(taskId, status) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+function applyCurrentFilter(currentTask) {
+    let currentFilter = document
+        .querySelector("#filterButtons .active")
+        .getAttribute("data-filter");
+
+    if (currentTask.checked && currentFilter == "active") {
+        currentTask.parentElement.parentElement.classList.add("d-none");
+    }
+
+    if (!currentTask.checked && currentFilter == "completed") {
+        currentTask.parentElement.parentElement.classList.add("d-none");
+    }
+}
+
 function toggleCheckbox() {
     let currentTaskId =
         this.parentElement.parentElement.getAttribute("data-task-id");
@@ -299,6 +313,7 @@ function toggleCheckbox() {
     }
 
     updateTaskStatus(currentTaskId, this.checked);
+    applyCurrentFilter(this);
     updateStatistics();
 }
 
